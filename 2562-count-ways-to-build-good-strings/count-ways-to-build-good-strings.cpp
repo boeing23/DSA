@@ -1,21 +1,32 @@
 class Solution {
+public:
     int dp[100001];
     int MOD = 1000000007;
+    int solve(int len,int &one, int &zero,int &low, int &high)
+    {
+        if(len>high)
+        {
+            return 0;
+        }
+        if(dp[len]!=-1) return dp[len];
+        
+        int res=0;
+        if(len>=low) res++;
+        
+        res+=solve(len+zero,one,zero,low,high);
+        res+=solve(len+one,one,zero,low,high);
 
-    int countWays(int &low,int &high,int &zero,int &one,int pos){
-        if(pos>high)    return 0;
-        if(dp[pos]!=-1) return dp[pos];
-
-        int count = 0;  //Count ways from current position
-        if(pos>=low)    count++;    //Add 1 if current string is good
-        count += countWays(low,high,zero,one,pos+zero);//Extend by 0s
-        count += countWays(low,high,zero,one,pos+one); //Extend by 1s
-
-        return dp[pos] = count % MOD;
+        return dp[len]=res % MOD;
     }
-public:
+
+   
+    
+
     int countGoodStrings(int low, int high, int zero, int one) {
         memset(dp,-1,sizeof(dp));
-        return countWays(low,high,zero,one,0);
+        return solve(0,one,zero,low,high);
+        
+       
     }
+
 };
