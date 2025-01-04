@@ -2,23 +2,33 @@ class Solution {
     #define pii pair<int,int>
 public:
     int countPalindromicSubsequence(string s) {
-        int n=s.size();
+        unordered_set<char>left;
+        unordered_map<char,int>right;
+        unordered_set<string>res;
+        
 
-        //STEP-1: Get first & Last occurances of each char
-        unordered_map<char,pii> first_last;
-        for(int i=0;i<n;++i){
-            if(!first_last.count(s[i]))
-                first_last[s[i]].first = first_last[s[i]].second = i;
-            else
-                first_last[s[i]].second = i;
-        }
+        for(char c: s)
+        {
+            right[c]++;
 
-        //STEP-2: Find unique elements count in range
-        int count=0;
-        for(auto [c,se]: first_last){
-            if(se.first==se.second) continue;
-            count += unordered_set<char>(s.begin()+se.first+1, s.begin()+se.second).size();
         }
-        return count;
+        for(int m=0;m<s.length();m++)
+        {
+            right[s[m]]--;
+
+            for(char c: left)
+            {
+                if(right[c]>0)
+                {
+                    string str = string(1, c) + string(1, s[m]);
+                    res.insert(str);
+
+                }
+               
+            }
+             left.insert(s[m]);
+
+        }
+        return res.size();
     }
 };
