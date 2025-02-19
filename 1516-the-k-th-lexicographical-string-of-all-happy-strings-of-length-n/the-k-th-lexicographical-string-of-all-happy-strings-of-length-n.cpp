@@ -1,30 +1,57 @@
 class Solution {
 public:
+    string getHappyString(int n, int k) {
+    queue<string>q;
+    vector<string>size_n;
 
-//for genrating consider we will keep checking if the current string size is equal to n or not so therefore we need a current string, if size equals n then add it to the vector result.
-void generate(int n,string curr, vector<string>&result)
-{
-    if(curr.length()==n)
-    {
-        result.push_back(curr);
-        return;
-    }
-    //we keep on iterating through the list 
+    q.push("a");
+    q.push("b");
+    q.push("c");
 
-    for(char c: {'a','b','c'})
+    while(!q.empty())
     {
-        if(curr.empty()||curr.back()!=c)
+        string curr=q.front();
+        q.pop();
+        if(curr.size()==n){
+                size_n.push_back(curr);
+                continue;
+            }
+
+
+        string first=curr;
+        string second=curr;
+
+        if(curr.back()=='a')
         {
-            generate(n,curr+c,result);
+            first.push_back('b');
+
+            second.push_back('c');
         }
 
-    }
-}
-    string getHappyString(int n, int k) {
-vector<string>result;
+        else if(curr.back()=='b')
+        {
+            first.push_back('a');
 
-        generate(n,"",result);
-        return k <= result.size() ? result[k - 1] : "";
+            second.push_back('c');
+        }
+        else{
+            first.push_back('a');
+
+            second.push_back('b');
+        }
+        if(size_n.size()>=k)    break;
+
+        q.push(first);
+        q.push(second);
         
+    }
+    if(size_n.size()<k)
+            return "";
+        return size_n[k-1];
+    
+
+
+
+
     }
 };
