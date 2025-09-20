@@ -5,8 +5,8 @@ public:
         vector<int>dp2(nums.size(),-1);
 
         int skip=dfs(nums,dp1,0);
-        int take=dfs(nums,dp2,1);
-        return max(skip,take);
+        
+        return skip;
 
         
     }
