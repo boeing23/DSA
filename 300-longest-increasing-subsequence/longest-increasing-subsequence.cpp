@@ -1,31 +1,27 @@
 class Solution {
+    vector<vector<int>> dp; // dp[i][prev+1]
 public:
-    int solve(int ind, int prev, vector<int>& nums, vector<vector<int>>& dp) {
-        if (ind == nums.size()) {
-            return 0; // Base case: no more elements
-        }
-
-        // Check if the subproblem is already solved
-        if (dp[ind][prev + 1] != -1) {
-            return dp[ind][prev + 1];
-        }
-
-        // Option 1: Skip the current element
-        int nontake = solve(ind + 1, prev, nums, dp);
-
-        // Option 2: Take the current element if valid
-        int take = 0;
-        if (prev == -1 || nums[ind] > nums[prev]) {
-            take = 1 + solve(ind + 1, ind, nums, dp);
-        }
-
-        // Store the result in the dp array
-        return dp[ind][prev + 1] = max(nontake, take);
+    int lengthOfLIS(vector<int>& nums) {
+        int n = (int)nums.size();
+        dp.assign(n, vector<int>(n + 1, -1)); // prev in [-1..n-1] -> [0..n]
+        return dfs(nums, 0, -1);
     }
 
-    int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(n + 1, -1)); // Initialize DP table
-        return solve(0, -1, nums, dp); // Start recursion
+private:
+    int dfs(const vector<int>& nums, int i, int prev) {
+        if (i == (int)nums.size()) return 0;
+
+        int &memo = dp[i][prev + 1];
+        if (memo != -1) return memo;
+
+        // Skip current
+        int best = dfs(nums, i + 1, prev);
+
+        // Take current if it increases
+        if (prev == -1 || nums[i] > nums[prev]) {
+            best = max(best, 1 + dfs(nums, i + 1, i));
+        }
+
+        return memo = best;
     }
 };
