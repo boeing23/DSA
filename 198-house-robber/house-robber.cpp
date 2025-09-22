@@ -1,27 +1,20 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        vector<int>dp1(nums.size(),-1);
-        vector<int>dp2(nums.size(),-1);
+        vector<int>dp(nums.size(),-1);
 
-        int skip=dfs(nums,dp1,0);
-        
-        return skip;
+        return dfs(nums,0,dp);
 
         
     }
 
-    int dfs(vector<int>& nums, vector<int>& dp, int i)
+
+    int dfs(vector<int>& nums, int i, vector<int>&dp)
     {
         if(i>=nums.size()) return 0;
+
         if(dp[i]!=-1) return dp[i];
 
-        int skip=dfs(nums,dp,i+1);
-        int take=nums[i]+dfs(nums,dp,i+2);
-
-
-        return dp[i]=max(skip,take);
-
-
+        return dp[i]=max(nums[i]+dfs(nums,i+2,dp),dfs(nums,i+1,dp));
     }
 };
