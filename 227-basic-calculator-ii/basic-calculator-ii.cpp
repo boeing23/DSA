@@ -1,56 +1,58 @@
 class Solution {
 public:
     int calculate(string s) {
-        
-        char sign='+';
-        int curr=0;
+
+        int op='+';
+        int number=0;
         stack<int>st;
 
         for(int i=0;i<s.size();i++)
         {
-            if(isdigit(s[i]))
+            char c=s[i];
+            if(isdigit(c))
             {
-                curr=curr*10+(s[i]-'0');
-
+                number=number*10 + (c-'0');
             }
-
-            if((!isdigit(s[i]) && s[i] != ' ') || i == (int)s.size() - 1 )
+            if(!isdigit(c) &&c!=' ' || i==s.size()-1)
             {
-                if(sign=='+')
+                if(op=='+')
                 {
-                    st.push(curr);
+                    st.push(number);
                 }
-                else if(sign=='-')
+                else if(op=='-')
                 {
-                    st.push(-curr);
+                    st.push(-number);
                 }
-                else
+                else if(op=='*')
                 {
-                    int a=st.top();
+                    int a =st.top();
                     st.pop();
-                    if(sign=='*')
-                    {
-                        st.push(a*curr);
-                    }
-                    else
-                    {
-                        st.push(a/curr);
-                    }
+                    st.push(a*number);
+
+                }
+                else if(op=='/')
+                {
+                    int a =st.top();
+                    st.pop();
+                    st.push(a/number);
+
                 }
 
-                sign=s[i];
-                curr=0;
+                op=c;
+                number=0;
+
+
             }
         }
-int sum=0;
-
+        int res=0;
         while(!st.empty())
         {
-            sum+=st.top();
+            res+=st.top();
             st.pop();
-
         }
 
-        return sum;
+        return res;
+
+        
     }
 };
