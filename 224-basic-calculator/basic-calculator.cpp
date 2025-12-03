@@ -1,58 +1,57 @@
 class Solution {
 public:
     int calculate(string s) {
-
-        int sign=+1;
-        int curr=0;
+        int number=0;
         int result=0;
+        int sign=1;
         stack<int>st;
-
         for(char c: s)
         {
             if(isdigit(c))
             {
-                curr=curr*10+(c-'0');
-
+                number=number*10 + (c-'0');
             }
             else if(c=='+')
             {
-                result+=sign*curr;
-                curr=0;
-                sign=1;
-
+                result+=sign*number;
+                number=0;
+                sign=+1;
+                
             }
             else if(c=='-')
             {
-                result+=sign*curr;
-                curr=0;
+                result+=sign*number;
                 sign=-1;
-            }
+                number=0;
 
+
+            }
             else if(c=='(')
             {
                 st.push(result);
                 st.push(sign);
-                curr=0;
+
+                number=0;
                 result=0;
                 sign=1;
 
             }
             else if(c==')')
             {
-                result+=curr*sign;
-                int top=st.top();
+                result+=sign*number;
+                int outersign=st.top();
                 st.pop();
-                result*=top;
-             int a=st.top();
+                result*=outersign;
+                int outernumber=st.top();
                 st.pop();
-                result+=a;
-                sign=1;
-                curr=0;
 
+                result+=outernumber;
+                number=0;
+                sign=1;
             }
         }
-        result += (sign*curr); 
+
+        result+=sign*number;
         return result;
-        
     }
 };
