@@ -1,30 +1,40 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int res=0;
+
+        //this is the sliding window problem. until now we know that we have to keep track of maxF of that window
+        //resLen
+
 
         int l=0;
-        unordered_map<char,int>count;
-        int maxf=0;
+        int maxF=INT_MIN;
+       unordered_map<char,int>window;
+       int resLen=0;
+
         for(int r=0;r<s.size();r++)
         {
-            count[s[r]]++;
+            window[s[r]]++;
+            if(maxF<window[s[r]])
+            {
+                maxF=window[s[r]];
+            }
+            
 
-             maxf=max(maxf,count[s[r]]);
+            while((r-l+1)-maxF > k)
+            {
+                
 
-             while((r-l+1)-maxf>k)
-             {
-                count[s[l]]--;
+                window[s[l]]--;
                 l++;
-             }
-             res=max(r-l+1, res);
+            }
+
+            resLen=max(resLen, r-l+1);
 
 
         }
+        return resLen;
 
-        return res;
-
-
+        
         
     }
 };
