@@ -2,29 +2,41 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
 
-        //so basically it needs to be solved using sliding window
+        //so it is a sliding window question and to keep track of whether the window is valid or not we can use set
 
-        //so here the template of sliding window is
+        //so first define the l and r
 
         int l=0;
-        int res=0;
-        unordered_set<char>seen;
+        //then a variable to keep track of the max length
+        int resLen=0;
 
-    for(int r=0;r<s.size();r++)
-    {
-        char c=s[r];
-        while(seen.count(c))
+
+        unordered_set<char>tracker;
+
+        for(int r=0;r<s.size();r++)
         {
-            seen.erase(s[l]);
-            l++;
+            char c=s[r];
+            
+        
+
+
+            while(tracker.count(c))//this keeps the track of valid window
+            {
+                tracker.erase(s[l]);    //erasing because when the window moves the char is removed from left
+                l++;
+
+
+
+            } 
+            tracker.insert(c);
+
+            resLen=max(resLen,r-l+1);
+
+
         }
 
-        seen.insert(c);
-        res=max(res,r-l+1);
 
-    }
-    return res;
-
+        return resLen;
         
     }
 };
