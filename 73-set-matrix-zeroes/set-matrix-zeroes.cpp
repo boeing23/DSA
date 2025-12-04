@@ -1,17 +1,20 @@
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
-        int row=matrix.size();
-        int col=matrix[0].size();
+
+        int rows=matrix.size();
+        int cols=matrix[0].size();
 
 
-        vector<bool>Zrow(row,false); //we will know what row val is 0;
-        vector<bool>Zcol(col,false);
+        vector<bool>Zrow(rows,false);
+        vector<bool>Zcol(cols,false);
+
+        
 
 
-        for(int r=0;r<row;r++)
+        for(int r=0;r<rows;r++)
         {
-            for(int c=0;c<col;c++)
+            for(int c=0;c<cols;c++)
             {
                 if(matrix[r][c]==0)
                 {
@@ -22,9 +25,9 @@ public:
         }
 
         
-        for(int r=0;r<row;r++)
+        for(int r=0;r<rows;r++)
         {
-            for(int c=0;c<col;c++)
+            for(int c=0;c<cols;c++)
             {
                 if(Zrow[r] || Zcol[c])
                 {
@@ -32,6 +35,8 @@ public:
                 }
             }
         }
+        
+
         
 
         
