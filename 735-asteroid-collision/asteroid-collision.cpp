@@ -40,7 +40,7 @@ public:
             ans.push_back(st.top());
             st.pop();
         }
-        reverse(ans.begin(), ans.end());  // 🔥 important
+        reverse(ans.begin(), ans.end());  
 
         return ans;
     }
