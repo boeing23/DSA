@@ -13,24 +13,26 @@ class Solution {
 public:
     int maxPathSum(TreeNode* root) {
 
-        int res=root->val;
+        //the idea is to check for each node, maintain a maxVal variable to keep track of the max.  two things to care of is, figure out what the return statement would return in the dfs call
 
-        dfs(res,root);
-        return res;
+        int maxVal=INT_MIN;
 
+        dfs(root,maxVal);
 
-
+        return maxVal;
+        
     }
 
-    int dfs(int &res, TreeNode*node)
+    int dfs(TreeNode*root, int &maxVal)
     {
-        if(!node) return 0;
+        if(!root) return 0;
 
-        int left=max(dfs(res,node->left),0);
-        int right=max(dfs(res,node->right),0);
+        int left=max(0,dfs(root->left,maxVal));
+        int right=max(0,dfs(root->right,maxVal));
 
+        maxVal=max(maxVal,root->val+left+right);
 
-        res=max(node->val+left+right,res);
-        return node->val + max(left, right);
+        return root->val+max(left,right);
+
     }
 };
