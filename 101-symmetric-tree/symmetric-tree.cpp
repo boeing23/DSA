@@ -13,22 +13,28 @@ class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
 
-        //two pointer should be set
+        queue<pair<TreeNode*, TreeNode*>>q;
+        q.push({root->left, root->right});
 
-        return isMirror(root,root);
+        while(!q.empty())
+        {
 
+            auto [node1, node2]=q.front();
+            q.pop();
+            if(!node1 && !node2) continue;
+
+            if(!node1 || !node2) return false;
+            
+
+            if(node1->val!=node2->val) return false;
+
+            q.push({node1->left,node2->right});
+            q.push({node1->right,node2->left});
+
+
+        }
+
+        return true;
         
-        
-    }
-
-    bool isMirror(TreeNode*p, TreeNode*q)
-    {
-        if(!p && !q) return true;
-
-        if(!p || !q) return false;
-
-
-        return (p->val==q->val) && isMirror(p->left,q->right) && isMirror(p->right, q->left);
-
     }
 };
