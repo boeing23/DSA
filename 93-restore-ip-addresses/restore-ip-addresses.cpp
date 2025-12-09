@@ -33,6 +33,7 @@ public:
             if (stoi(curr) > 255) break;
 
             dfs(s,i+1,step+1,path+curr+'.');
+            curr.pop_back();
             
 
         }
