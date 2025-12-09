@@ -1,46 +1,56 @@
 class Solution {
     vector<vector<string>>res;
-
 public:
     vector<vector<string>> partition(string s) {
 
-        vector<string>sub;
+vector<string>path;
+        
 
-        dfs(sub,s,0);
+        dfs(s,0,path);
+
         return res;
 
-    
+        
+
         
     }
-    bool isPal(int l, int r, string s)
-       {
-        while(l<r)
-        {
-            if(s[l++]!=s[r--]) return false;
-        }
+bool isPalindrome(string curr)
+{
+    int l=0;
+    int r=curr.size()-1;
 
-        return true;
-       }
-
-    void dfs(vector<string>&sub, string s, int start)
+    while(l<=r)
     {
-        int n = (int)s.size();
-        if (start >= n) {                 // base: consumed entire string
-            res.push_back(sub);
-            return;
-        }
-
-       for(int end=start;end<s.size();end++)
-       {
-        if(isPal(start,end,s))
+        if(curr[l]!=curr[r])
         {
-            sub.push_back(s.substr(start,end-start+1));
-            dfs(sub, s, end+1);
-            sub.pop_back();
+            return false;
         }
-       }
+        r--;
+        l++;
+    }
 
+    return true;
+}
+    void dfs(string &s, int start, vector<string>path)
+    {
+        if(start==s.length())
+        {
+            res.push_back(path);
 
-       
+            return;
+
+        }
+
+        for(int i=start;i<s.length();i++)
+        {
+            string curr=s.substr(start,i-start+1);
+            if(isPalindrome(curr))
+            {
+                path.push_back(curr);
+                dfs(s,i+1,path);
+
+                path.pop_back();
+            }
+        }
     }
 };
