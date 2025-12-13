@@ -1,48 +1,55 @@
 class Solution {
 public:
     string longestPalindrome(string s) {
-        //the logic is to expand on the sides until you find hit the bottleneck;
+
+        int resLen=0;
+        int resInd=0;
+
+    for(int i=0;i<s.size();i++)
+    {
+        //for the odd len string you can use the logic of increasing from the middle.
+
+        int start=i;
+        int end=i;
+
+        //odd length string
 
 
-        int res=0;
-        int resIn=0;
-
-        for(int i=0;i<s.size();i++)
+        while(start>=0 && end<s.size() && s[start]==s[end])
         {
-            int l=i;
-            int r=i;
-
-            while(l>=0 && r<s.size()&& s[l]==s[r])
+            if(resLen<end-start+1)
             {
-                if(res<r-l+1)
-                {
-                    resIn=l;
-                    res=r-l+1;
-
-                }
-                
-                l--;
-                r++;
-                
+                resLen=end-start+1;
+                resInd=start;
             }
-            l=i;
-            r=i+1;
-            while(l>=0 && r<s.size()&& s[l]==s[r])
+
+            start--;
+            end++;
+
+
+        }
+//even length string
+        start=i;
+        end=i+1;
+
+        while(start>=0 && end<s.size() && s[start]==s[end])
+        {
+            if(resLen<end-start+1)
             {
-                if(res<r-l+1)
-                {
-                    resIn=l;
-                    res=r-l+1;
-
-                }
-                l--;
-                r++;
-                
+                resLen=end-start+1;
+                resInd=start;
             }
+
+            start--;
+            end++;
+
 
         }
 
-        return s.substr(resIn,res);
-    
+
+    }
+
+    return s.substr(resInd, resLen);
+        
     }
 };
