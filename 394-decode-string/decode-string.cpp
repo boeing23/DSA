@@ -1,55 +1,53 @@
 class Solution {
 public:
     string decodeString(string s) {
-vector<string>stack;
 
+        stack<string>st;
 
-        for(int i=0;i<s.size();i++)
+        for(int i=0;i<s.length();i++)
         {
-            char c=s[i];
-            if(c!=']')
+            char curr=s[i];
+            if(curr!=']')
             {
-                stack.push_back(string(1,c));
+                st.push(string(1,curr));
             }
             else
             {
-                //for example [bc
-
-                string substr="";
-                while(stack.back()!="[")
+                string sub="";
+                while(!st.empty()&&st.top()!="[")
                 {
-                    substr=stack.back()+substr;
-                    stack.pop_back();
+                    sub=st.top()+sub;
+                    st.pop();
+                    
                 }
 
-                stack.pop_back(); //removes '[' 
-
+                st.pop();
                 string k="";
-                while(!stack.empty() && isdigit(stack.back()[0]))
+                while(!st.empty() && isdigit(st.top()[0]))
                 {
-                    k=stack.back()+k;
-                    stack.pop_back();
+                    k=st.top()+k;
+                    st.pop();
+                }
+                int repeated=stoi(k);
+                string rep="";
+
+                for(int i=0;i<repeated;i++)
+                {
+                    rep+=sub;
 
                 }
 
-
-                int repeated= stoi(k);
-                string r="";
-                for(int i=0; i<repeated; i++)
-                {
-                    r+=substr;
-
-                }
-
-                stack.push_back(r);
-
+                st.push(rep);
             }
+            
         }
-string res="";
-        for(const auto&part: stack)
-        {
-            res+=part;
 
+        string res="";
+
+        while(!st.empty())
+        {
+            res=st.top()+res;
+            st.pop();
         }
 
         return res;
