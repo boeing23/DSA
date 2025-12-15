@@ -10,24 +10,29 @@
  * };
  */
 class Solution {
-public:
-    vector<int>res;
-    vector<int> rightSideView(TreeNode* root) {
-        dfs(root,0);
-        return res;
-
-
-
-
-        
-    }
-    void dfs(TreeNode*node,int depth)
+    void dfs(int depth, vector<int>&res, TreeNode*root)
     {
-        if(!node)return;
+        if(!root) return;
 
-        if(res.size()==depth) res.push_back(node->val);
+        if(depth==res.size())
+        {
+            res.push_back(root->val);
+        }
+        depth++;
+        dfs(depth,res,root->right);
+        dfs(depth,res,root->left);
 
-        dfs(node->right,depth+1);
-        dfs(node->left,depth+1);
+    }
+public:
+    vector<int> rightSideView(TreeNode* root) {
+
+        vector<int>res;
+
+        int depth=0;
+
+        dfs(depth,res,root);
+
+        return res;
+        
     }
 };
