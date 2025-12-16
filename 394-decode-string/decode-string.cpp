@@ -1,56 +1,48 @@
 class Solution {
 public:
     string decodeString(string s) {
-
         stack<string>st;
 
-        for(int i=0;i<s.length();i++)
+        for(char c: s)
         {
-            char curr=s[i];
-            if(curr!=']')
+            if(c!=']')
             {
-                st.push(string(1,curr));
+                st.push(string(1,c));
             }
             else
             {
-                string sub="";
-                while(!st.empty()&&st.top()!="[")
+                string substr="";
+                while(!st.empty() && st.top()!="[")
                 {
-                    sub=st.top()+sub;
+                    substr=st.top()+substr;
                     st.pop();
-                    
                 }
-
                 st.pop();
                 string k="";
+
                 while(!st.empty() && isdigit(st.top()[0]))
                 {
                     k=st.top()+k;
                     st.pop();
                 }
-                int repeated=stoi(k);
+                int repeat=stoi(k);
                 string rep="";
-
-                for(int i=0;i<repeated;i++)
+                for(int i=0;i<repeat;i++)
                 {
-                    rep+=sub;
-
+                    rep+=substr;
                 }
-
                 st.push(rep);
             }
-            
         }
 
-        string res="";
+        string ans="";
 
         while(!st.empty())
         {
-            res=st.top()+res;
+            ans=st.top()+ans;
             st.pop();
         }
 
-        return res;
-        
+        return ans;
     }
 };
