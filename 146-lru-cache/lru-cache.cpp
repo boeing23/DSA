@@ -1,96 +1,92 @@
-class Node
-{
+class Node{
     public:
-    int key;
     int val;
-    Node* prev;
-    Node* next;
+    int key;
 
-    Node(int k, int v)
+    Node*prev;
+    Node*next;
+public:
+    Node(int key,int val)
     {
-        key=k;
-        val=v;
+        this->key=key;
+        this->val=val;
         prev=nullptr;
         next=nullptr;
     }
 
 };
-
 class LRUCache {
-    private:
+    // a doubly linkedlist and 
+    // and a unordered map
     int cap;
-    unordered_map<int,Node*>cache;
-    Node* right;   //Most recently used node
-    Node* left;     //Least Recently used Node
+    unordered_map<int, Node*>cache;
+    Node* left;
+    Node*right;  
 
     void insert(Node* node)
     {
-        Node* prev=right->prev;
-        prev->next=node;
-        node->next=right;
-        node->prev=prev;
-
+        Node*prv=right->prev;
+        prv->next=node;
         right->prev=node;
+        node->prev=prv;
+        node->next=right;
 
     }
 
     void remove(Node*node)
     {
-        Node*prev=node->prev;
-        Node*next=node->next;
-
-        prev->next=next;
-        next->prev=prev;
-
-
+        Node*prv=node->prev;
+        Node* nxt=node->next;
+        prv->next=nxt;
+        nxt->prev=prv;
     }
 
 public:
+
     LRUCache(int capacity) {
         cap=capacity;
         left=new Node(0,0);
         right=new Node(0,0);
 
-        right->prev=left;
         left->next=right;
-
+        right->prev=left;
         
     }
     
     int get(int key) {
         if(cache.find(key)!=cache.end())
         {
+           Node* node=cache[key];
+           remove(node);
+           insert(node);
 
-        Node*node=cache[key];
-        remove(node);
-        insert(node);
+
             return node->val;
+
         }
 
         return -1;
-
-        
     }
     
     void put(int key, int value) {
-        if(cache.find(key)!=cache.end())
+        if(cache.find(key)!= cache.end())
         {
             remove(cache[key]);
+
         }
-        Node*newNode= new Node(key,value);
-        cache[key]=newNode;
 
-        insert(newNode);
-
-        //it is possible that the capcity of the cache has gone above
+        Node* node=new Node(key,value);
+        cache[key]=node;
+        insert(node);
 
         if(cache.size()>cap)
         {
             Node*lru=left->next;
-        remove(lru);
-        cache.erase(lru->key);     //let's hold on to this i am not sure how the lru->key fetches the key
-        delete lru;
+            remove(lru);
+            cache.erase(lru->key);
+
         }
+
 
         
     }
