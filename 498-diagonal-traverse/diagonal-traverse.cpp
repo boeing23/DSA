@@ -1,29 +1,24 @@
 class Solution {
 public:
     vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
-        
-        // you opnly change direction when you hit the boundary or else you keep going
-
-        int direction=1;
-
         int row=mat.size();
         int col=mat[0].size();
-
+        int direction=1;
+        vector<int>ans;
         int r=0;
         int c=0;
-        vector<int>ans;
 
         while(r<row && c<col)
         {
             ans.push_back(mat[r][c]);
-            int nr= r+(direction==1?-1:1);
-            int nc= c+(direction==1?1:-1);
+            int nr= r+ (direction==1?-1:1);
+            int nc=c+ (direction==1?1:-1);
 
-            if(nr<0 || nc<0 || nr>=row || nc>=col)
+            if(nr<0 || nr>=row || nc<0 || nc>=col)
             {
-                if(direction==1)
+                if(direction ==1)
                 {
-                    if(c==col-1)
+                    if(c>=col-1)
                     {
                         r=r+1;
                     }
@@ -34,7 +29,7 @@ public:
                 }
                 else
                 {
-                    if(r==row-1)
+                    if(r>=row-1)
                     {
                         c=c+1;
                     }
@@ -43,7 +38,6 @@ public:
                         r=r+1;
                     }
                 }
-
                 if(direction==1)
                 {
                     direction=0;
@@ -53,10 +47,8 @@ public:
                     direction=1;
                 }
 
-
             }
-            else
-            {
+            else{
                 r=nr;
             c=nc;
 
@@ -64,9 +56,10 @@ public:
 
             
 
+            
         }
-return ans;
 
-
+        return ans;
+        
     }
 };
