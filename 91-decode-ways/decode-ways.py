@@ -8,6 +8,7 @@ class Solution:
         # ways variable
         # traverse the string
         dp=defaultdict(int)
+        @cache
         def dfs(index:int):
             if index==len(s):
                 return 1
