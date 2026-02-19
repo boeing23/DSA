@@ -14,8 +14,8 @@ class Solution:
                 return 1
             if s[index]=='0':
                 return 0
-            if index in dp:
-                return dp[index]
+            # if index in dp:
+            #     return dp[index]
             
             dp[index]+=dfs(index+1)
 
