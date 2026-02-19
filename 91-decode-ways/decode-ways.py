@@ -1,25 +1,30 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
 
-        dp={}
+        # so there could be multiple ways to decode a string
+        # in one you can take a single digit or take a doublt digit
+        # and the val of double should not be > 26
 
-        def dfs(idx:int)->int:
-
-            if idx==len(s):
+        # ways variable
+        # traverse the string
+        dp=defaultdict(int)
+        def dfs(index:int):
+            if index==len(s):
                 return 1
-            if s[idx]=='0':
+            if s[index]=='0':
                 return 0
-            if idx in dp:
-                return dp[idx]
-            res=0
+            if index in dp:
+                return dp[index]
+            
+            dp[index]+=dfs(index+1)
 
-            res+=dfs(idx+1)
+            if index<len(s)-1:
+                if s[index]=='1' or (s[index]=='2' and s[index+1]<'7'):
+                    dp[index]+=dfs(index+2)
+            return dp[index]
+            
 
-            if idx<len(s)-1:
-                if s[idx]=='1' or  (s[idx]=='2' and s[idx+1]<'7'):
-                    res+=dfs(idx+2)
-            dp[idx]=res
-            return dp[idx]
         return dfs(0)
-
+        
+        
         
