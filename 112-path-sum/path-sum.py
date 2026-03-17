@@ -15,10 +15,11 @@ class Solution:
         def dfs(node,remaining)->bool:
             if not node:
                 return False
-            if not node.left and not node.right and remaining==node.val:
+            remaining-=node.val
+            if not node.left and not node.right and remaining==0:
                 return True
             print(remaining)
-            return dfs(node.left, remaining-node.val) or dfs(node.right, remaining-node.val)
+            return dfs(node.left, remaining) or dfs(node.right, remaining)
         return dfs(root,targetSum)
 
        
