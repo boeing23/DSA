@@ -1,24 +1,22 @@
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
-        # basically the logic here is
 
-        # [1,2,3,4,5]
-
-        # you keep on taking the prefix sum of each index then to get how many targeted sums where there
-        # you do is current sum-k this will tell you 
-
-        sumMap=defaultdict(int)
-        sumMap[0]=1
-        prefix=0
+        prefixMap=defaultdict(int)
+        prefixMap[0]=1
         count=0
+
+        prefix=0
+
         for i in range(len(nums)):
             prefix+=nums[i]
-            
-            count+=sumMap[prefix-k]
-            sumMap[prefix]+=1
+
+            diff=prefix-k
+
+            count+=prefixMap[diff]
+            prefixMap[prefix]+=1
         return count
-        
+            
 
-
-
+            # what do i store?
+            # i see if this diff is already occured before or not
         
