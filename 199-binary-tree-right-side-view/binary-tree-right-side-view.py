@@ -7,19 +7,31 @@
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
 
-        res=[]
-        def dfs(node,depth)->None:
-            if not node:
-                return
-            if depth==len(res):
-                res.append(node.val)
-            depth+=1
-            dfs(node.right,depth)
-            dfs(node.left,depth)
+        # ha level order traversal ni karto
+
+        # basically left pasna add karat jaa then jo last asnar to ans
+        if not root:
+            return []
+
+        q=deque()
+
+        q.append(root)
+        ans=[]
+
+        while q:
+            l=len(q)
+            r=0
+            for i in range(l):
+                node=q.popleft()
+
+                r=node.val
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            ans.append(r)
+        return ans
+                
 
 
-        # this is a level order traversal question
-
-        dfs(root,0)
-        return res
         
