@@ -1,45 +1,44 @@
 class Solution:
     def spellchecker(self, wordlist: List[str], queries: List[str]) -> List[str]:
 
-        # so three priorities
-        # 1. exact word exists or not
-        # if not then check if the lowercase exists or not
-
-        # 3. devowel
+        # bassically the task is to return the word in the dict. You can either
+        # return an exact word in the dictionary or the lowercase letter
+        # or the de voweled one
 
 
-        exact_w=set(wordlist)
 
-        cap_w={}
-        vowel_list={}
+        exact=set(wordlist)
+        devoweled={}
+        cap_list={}
 
-        def devowel(w):
-            word=''
-            for ch in w:
+        def devowel(s:str)->str:
+            ans=""
+            for ch in s:
                 if ch in 'aeiou':
-                    word+='*'
+                    ans+='*'
                 else:
-                    word+=ch
-            return word
-        for word in wordlist:
-            low=word.lower()
-            cap_w.setdefault(low,word)
-            vowel_list.setdefault(devowel(low),word)
+                    ans+=ch
+            return ans
+
+        for i in range(len(wordlist)):
+
+            low=wordlist[i].lower()
+
+            cap_list.setdefault(low,wordlist[i])
+            devoweled.setdefault(devowel(low), wordlist[i])
         result=[]
         for q in queries:
-            low=q.lower()
-            dev=devowel(low)
-            if q in exact_w:
+
+            lowq=q.lower()
+
+            if q in exact:
                 result.append(q)
-            elif low in cap_w:
-                result.append(cap_w[low])
-            elif dev in vowel_list:
-                result.append(vowel_list[dev])
+            elif lowq in cap_list:
+                result.append(cap_list[lowq])
+            elif devowel(lowq) in devoweled:
+                result.append(devoweled[devowel(lowq)])
             else:
                 result.append("")
         return result
-
-            
-
 
         
