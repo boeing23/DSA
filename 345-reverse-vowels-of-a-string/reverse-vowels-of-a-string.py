@@ -16,13 +16,11 @@ class Solution:
                 l+=1
                 r-=1
 
-            elif s[l].lower() in 'aeiou':
-                r-=1
-            elif s[r].lower() in 'aeiou':
+            while l<r and s[l].lower() not in 'aeiou':
                 l+=1
-            else:
+            while l<r and  s[r].lower() not in 'aeiou':
                 r-=1
-                l+=1
+
 
         return ''.join(s)
 
