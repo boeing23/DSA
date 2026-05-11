@@ -8,54 +8,66 @@
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
 
-        # basically in this question to get the node aove you just have tp create a undirected graph
-        # storing the parent node and the child nodes adjacent to it
+
+        #this ones easy you create a adj list 
+        
+
+
+        q=deque()
+
+
+        q.append((root,None))
 
         adj=defaultdict(list)
 
-        q=deque()
-        q.append((root,None))
 
         while q:
 
             node,parent=q.popleft()
 
             if parent:
+
                 adj[node].append(parent)
                 adj[parent].append(node)
+
             if node.left:
                 q.append((node.left,node))
             if node.right:
                 q.append((node.right,node))
-        g=deque()
+
+        #this creates the adj list now let's traverse this
+
+        #okay now traversing will be bit tricky
+
+        # dfs is basically do gown the rabbit hole
 
 
-        g.append(target)
         visited=set()
-        visited.add(target)
-        lvl=0
-        # if visited i cannot go again there
+        ans=[]
 
+        def dfs(node,dist):
 
-        while g:
+            if not node:
+                return
+            if node in visited:
+                return
+            if dist==k:
+                ans.append(node.val)
+            visited.add(node)
+
+            for nei in adj[node]:
+                dfs(nei,dist+1)
+        dfs(target,0)
+        return ans
+
             
-            if lvl==k:
-                res=[]
-                for node in g:
-                    res.append(node.val)
-                return res
 
-            for _ in range(len(g)):
-                node=g.popleft()
-            
-                
-
-                for nei in adj[node]:
-                    if nei not in visited:
-                        visited.add(nei)
-                        g.append(nei)
-            lvl+=1
-        return []
-                    
 
         
+        
+
+
+
+
+
+
