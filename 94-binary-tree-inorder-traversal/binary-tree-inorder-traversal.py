@@ -12,15 +12,15 @@ class Solution:
         ans=[]
 
         def dfs(node):
-            if not root:
+            if not node:
                 return
             
-            if node.left:
-                dfs(node.left)
+            #if node.left:
+            dfs(node.left)
             ans.append(node.val)
 
-            if node.right:
-                dfs(node.right)
+            #if node.right:
+            dfs(node.right)
         dfs(root)
         return ans
 
