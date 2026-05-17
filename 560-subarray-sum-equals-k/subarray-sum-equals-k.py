@@ -1,22 +1,21 @@
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
 
-        prefixMap=defaultdict(int)
-        prefixMap[0]=1
+
+        Rsum=0
         count=0
-
-        prefix=0
-
+        indexMap=defaultdict(int)
+        indexMap[0]=1
+    
         for i in range(len(nums)):
-            prefix+=nums[i]
-
-            diff=prefix-k
-
-            count+=prefixMap[diff]
-            prefixMap[prefix]+=1
+            Rsum+=nums[i]
+            diff=Rsum-k
+            if diff in indexMap:
+                count+=indexMap[diff]
+            indexMap[Rsum]+=1
         return count
-            
 
-            # what do i store?
-            # i see if this diff is already occured before or not
+
+
+
         
