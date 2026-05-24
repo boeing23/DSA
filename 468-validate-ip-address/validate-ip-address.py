@@ -22,7 +22,7 @@ class Solution:
                     return "Neither"
                 
                 for c in part:
-                    if c not in '0123456789ABCDEFabcdef':
+                    if c not in set('0123456789ABCDEFabcdef'):
                         return "Neither"
             return "IPv6"
         return "Neither"
