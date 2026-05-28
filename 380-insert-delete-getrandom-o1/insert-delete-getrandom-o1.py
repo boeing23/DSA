@@ -1,43 +1,38 @@
-# basically use a hash to store the index in the array
-# now to delete the element, what you can do is replace the last element with the intereted element
-# then pop
-
 class RandomizedSet:
 
     def __init__(self):
-        self.indexMap={}
-        self.array=[]
+        #so the logic is use a list and store the pos in a dict
+        self.arr=[]
+        self.pos={}
 
         
 
     def insert(self, val: int) -> bool:
-
-        #key will be val and it's index will be the val
-        if val in self.indexMap:
+        if val in self.pos:
             return False
-        self.array.append(val)
-        self.indexMap[val]=len(self.array)-1
+        idx=len(self.arr)
+        self.pos[val]=idx
+        self.arr.append(val)
         return True
+        
         
 
     def remove(self, val: int) -> bool:
-        #now to remove you get the index of the element from the indexMap
-
-        if val not in self.indexMap:
+        if val not in self.pos:
             return False
+        idx=self.pos[val] #this store the index of that val need to be removed
+        last=self.arr[-1] #this stores the last element in the array
+        self.arr[idx]=last
+        self.pos[last]=idx
+        self.arr.pop()
+        del self.pos[val]
         
-        index=self.indexMap[val]
-        self.array[index], self.array[len(self.array)-1]= self.array[len(self.array)-1], self.array[index]
-       # the value t index is different now, so 
-        self.indexMap[self.array[index]]=index
-
-        self.array.pop()
-        del self.indexMap[val]
+        
         return True
         
 
     def getRandom(self) -> int:
-        return random.choice(self.array)
+        return random.choice(self.arr)
         
 
 
