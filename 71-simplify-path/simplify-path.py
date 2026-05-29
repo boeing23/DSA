@@ -2,27 +2,49 @@ class Solution:
     def simplifyPath(self, path: str) -> str:
         
 
-        #okay so stack i can use
+        # "home""foo"
+        # first of all i would do a split on ('/')
+
+        # then
+        # this would be
+        # "home" "user" "Documents" ".." "Pictures"
+        # stack
+
+        # home, user, document, 
+        # if .. or .
+
+
+        # "..." "a" ".." "b" "c" ".." "d" "."
+
+        # "..." "b" "d" 
+
+        # so double dot-> one pop and 
+        # . dot-> skip
+        parts=path.split('/')
+        # print(parts)
+        normalized=[]
+        for p in parts:
+            if p:
+                normalized.append(p)
+
         stack=[]
 
-        parts=path.split('/')
+        for part in normalized:
 
-
-        #parts=['home','user','Documents','..','Pictures']
-
-
-        for part in parts:
-
-            if part=='..':
-                if stack:
-                    stack.pop()
-            elif part=='' or part=='.':
+            if stack and part=="..":
+                stack.pop()
+            
+            elif part==".":
                 continue
             else:
-                stack.append(part)
-        return '/'+'/'.join(stack)
-        
+                if part!="..":
+                    stack.append(part)
+                #print(stack)
+        #["...", "b","d"]
+
+        return "/"+ "/".join(stack)
+
+
+
             
 
-
-        
