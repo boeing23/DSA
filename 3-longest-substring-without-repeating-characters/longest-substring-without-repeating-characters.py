@@ -1,34 +1,19 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-
-
-        # so basically you keep a window and suddnely you find something already in the set you take the max len
-
-        # set to keep track of unique elements inside the window
-
-        maxLen=0
         window=set()
-        l=0
+        maxL=0
 
-        # so the window should be unique
-        # remove the last element until it is not there in the w
+        left=0
 
-        for r in range(len(s)):
+        for right in range(len(s)):
+            curr_c=s[right]
 
-            if s[r] in window:
+            if curr_c in window:
+                while curr_c in window:
+                    window.remove(s[left])
+                    left+=1
 
+            maxL=max(maxL, right-left+1)
 
-                while s[r] in window:
-                    window.remove(s[l])
-                    l+=1
-                    
-                
-
-
-            window.add(s[r])
-            maxLen=max(maxLen, r-l+1)
-        return maxLen
-
-
-
-        
+            window.add(curr_c)
+        return maxL
