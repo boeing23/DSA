@@ -8,12 +8,14 @@ class Solution:
         for right in range(len(s)):
             curr_c=s[right]
 
-            if curr_c in window:
-                while curr_c in window:
-                    window.remove(s[left])
-                    left+=1
+            
+            while curr_c in window:
+                window.remove(s[left])
+                left+=1
 
             maxL=max(maxL, right-left+1)
 
             window.add(curr_c)
         return maxL
+# TC=O(n)
+# SC=O(n)
