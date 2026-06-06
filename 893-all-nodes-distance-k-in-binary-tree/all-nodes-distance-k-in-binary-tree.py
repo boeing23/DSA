@@ -7,67 +7,52 @@
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-
-
-        #this ones easy you create a adj list 
-        
-
-
-        q=deque()
-
-
-        q.append((root,None))
-
         adj=defaultdict(list)
 
-
-        while q:
-
-            node,parent=q.popleft()
-
-            if parent:
-
-                adj[node].append(parent)
-                adj[parent].append(node)
-
-            if node.left:
-                q.append((node.left,node))
-            if node.right:
-                q.append((node.right,node))
-
-        #this creates the adj list now let's traverse this
-
-        #okay now traversing will be bit tricky
-
-        # dfs is basically do gown the rabbit hole
-
-
-        visited=set()
-        ans=[]
-
-        def dfs(node,dist):
-
+        def dfs(parent, node):
             if not node:
                 return
-            if node in visited:
-                return
-            if dist==k:
+            if not parent:
+                if node.left:
+                    adj[node].append(node.left)
+                if node.right:
+                    adj[node].append(node.right)
+            else:
+                adj[node].append(parent)
+                if node.left:
+                    adj[node].append(node.left)
+                if node.right:
+                    adj[node].append(node.right)
+            dfs(node,node.left)
+            dfs(node,node.right)
+
+
+
+
+
+        dfs(None, root)
+        visited=set()
+        ans=[]
+        
+
+        def dfsnei(node,distance):
+
+
+            if distance==k:
                 ans.append(node.val)
             visited.add(node)
 
             for nei in adj[node]:
-                dfs(nei,dist+1)
-        dfs(target,0)
-        return ans
+                if nei not in visited:
+                    visited.add(nei)
+                    
+                    dfsnei(nei,distance+1)
+            #visited.remove(node)
 
+                
             
 
+        dfsnei(target,0)
+        return ans
 
         
-        
-
-
-
-
-
-
