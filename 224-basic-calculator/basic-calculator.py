@@ -1,54 +1,47 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        nums=0
+
+        # whenever ( is encountered add the result to the 
+        # stack
         stack=[]
-
-        # now whenever i add it to the stack i flush the num
-        # now you should add to the stack
-
-        # whenevr you hit a sign
+        num=0
         sign=1
-        result=0
-
-        for ch in s:
-            if ch.isdigit():
-                nums=nums*10+int(ch)
+        sums=0
 
 
-            if ch in '+-':
-                nums=nums*sign
+        for c in s:
+            if c.isdigit():
+                num= num*10+(ord(c)-ord('0'))
+            elif c in '+-':
+                sums+=(num*sign)
+                sign=1 if c=='+' else -1
+                num=0
+            
+            else:
 
-                result+=nums
-                nums=0
-                sign=1 if ch=='+' else -1
-            elif ch==" ":
-                continue
-            elif ch=="(":
-                stack.append(result)
-                result=0
-                stack.append(sign)
-                nums=0
-                sign=1
+                if c=='(':
+                    stack.append(sums)
+                    stack.append(sign)
 
-            elif ch==")":
-                result += sign * nums
-                nums=0
-                
-                prev_sign=stack.pop()
-                
-                prev_result=stack.pop()
+                    num=0
+                    sums=0
+                    sign=1
+            
+                elif c==')':
+                    sums+=num*sign
+                    num=0
+                    prev_sign= stack.pop()
+                    prev_num=stack.pop()
 
-                result=prev_result+result*prev_sign
-                
-        result += sign * nums
-        return result
+                    sums= prev_num + (sums*prev_sign)
+                    
 
-
-
-        
-
-                
+        return sums + (sign*num)
+            
+            
 
 
+
+            
 
         
